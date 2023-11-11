@@ -4,6 +4,7 @@ import 'package:form/splashscreen.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'applyCompleted.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/FormScreen': (context) => FormScreen(),
+        '/ApplyCompleted': (context) => ApplyCompleted(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

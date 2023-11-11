@@ -154,6 +154,7 @@ class FormScreen extends StatelessWidget {
                       Flexible(child: Text(controller.profilePhoto.split('=').last))
                     ],
                   ),
+                  SizedBox(height: 20,),
                   Row(
                     children: [
                       CustomCheckbox(value: controller.feeConfirmed, onChanged: (bool value) {

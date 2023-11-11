@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(Duration(seconds: 3), () async{
         Get.offAndToNamed('/FormScreen');
+        // Get.offNamed('/ApplyCompleted');
 
 
     });

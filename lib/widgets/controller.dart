@@ -142,7 +142,6 @@ class FormController extends GetxController{
     feeConfirmed!=false &&
     monthlyFeeConfirmed!=false
     ){
-
       await saveDataToFireStore(
           {
             "Full Name":firstName.text+" "+lastName.text,
@@ -162,6 +161,7 @@ class FormController extends GetxController{
           }
       );
       showSnackbar(context,"Application Submitted Succesfully\nWe will contact you ASAP");
+      Get.offAndToNamed("/ApplyCompleted");
     }else{
       showSnackbar(context,"All fields are required");
     }
@@ -175,13 +175,13 @@ class FormController extends GetxController{
       SnackBar(
         content: Text(message),
         duration: Duration(seconds: 2), // Optional: set the duration
-        action: SnackBarAction(
-          label: 'Close',
-          onPressed: () {
-            // Perform an action when the "Close" button is pressed
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
+        // action: SnackBarAction(
+        //   label: 'Close',
+        //   onPressed: () {
+        //     // Perform an action when the "Close" button is pressed
+        //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        //   },
+        // ),
       ),
     );
   }
