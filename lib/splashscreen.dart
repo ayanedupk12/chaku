@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () async{
-        Get.off(FormScreen());
+        Get.offAndToNamed('/FormScreen');
 
 
     });
@@ -29,8 +29,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('assets/logo.jpg'),
+        child: SizedBox(
+            height: context.height/2,
+            width: context.width/1.3,
+            child: Image.asset('assets/logo.jpg')),
         // child: Text('Flutter Fusion'),
       )
     );

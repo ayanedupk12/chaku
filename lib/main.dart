@@ -22,12 +22,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: '/', // Specify your initial route
+      routes: {
+        '/': (context) => SplashScreen(),
+        '/FormScreen': (context) => FormScreen(),
+      },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       // home: SplashScreen(),
-      home: FormScreen(),
+      // home: FormScreen(),
     );
   }
 }
