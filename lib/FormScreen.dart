@@ -29,7 +29,11 @@ class FormScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(child: Text('Admission For For Flutter Training',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),)),
+                  Center(child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: Image.asset('assets/logo.jpg')),),
+                  Center(child: Text('Admission For Flutter Training',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),)),
                   SizedBox(height: 20,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
