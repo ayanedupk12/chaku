@@ -189,7 +189,7 @@ class FormScreen extends StatelessWidget {
                           controller.monthlyFeeConfirmed=value;
                         },),
                         SizedBox(width: 10,),
-                        Flexible(child: Text('By cheking this option You will agree to our monthly admission terms and condition. admission fee is 500'))
+                        Flexible(child: Text('By cheking this option You will agree to our monthly admission terms and condition. admission fee is 4500'))
                       ],
                     ),
                     SizedBox(height: 20,),
