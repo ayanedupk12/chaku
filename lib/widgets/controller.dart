@@ -36,7 +36,7 @@ class FormController extends GetxController{
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate!=null?selectedDate!:DateTime.now(),
+        initialDate: selectedDate!=null?selectedDate!:DateTime(2000),
         firstDate: DateTime(1960),
         lastDate: DateTime.now());
     if (picked != null && picked != selectedDate) {
@@ -185,8 +185,4 @@ class FormController extends GetxController{
       ),
     );
   }
-
-
-
-
 }
