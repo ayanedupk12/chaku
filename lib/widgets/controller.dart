@@ -1,5 +1,6 @@
 
 
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -9,20 +10,94 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../productModel.dart';
 
 class FormController extends GetxController{
-  TextEditingController firstName=TextEditingController();
-  TextEditingController lastName=TextEditingController();
-  TextEditingController fatherName=TextEditingController();
-  TextEditingController nIC=TextEditingController();
-  TextEditingController schoolOrCollege=TextEditingController();
-  TextEditingController currentLevel=TextEditingController();
-  TextEditingController className=TextEditingController();
-  TextEditingController rollNumber=TextEditingController();
-  TextEditingController phoneNumber=TextEditingController();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final String phoneNumber = '+923103453503';
+
+  forwardProductToWhatsApp(Product product ) async {
+    String message='''
+    ID: ${product.id},
+    Name: ${product.name},
+    Size: ${product.size},
+    Price: ${product.price},
+    Description: ${product.description},
+    ''';
+    // String productJson = jsonEncode(product.toJson());
+    // productJson;
+    String whatsappUrl = 'https://wa.me/$phoneNumber?text=${Uri.encodeFull(message)}';
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      throw 'Could not launch $whatsappUrl';
+    }
+  }
+
+
+
+
+
+  @override
+  void onInit() async{
+    await getAllDataFromFirestore();
+    super.onInit();
+  }
+
+  List<Product> products=[];
+  bool loading= false;
+
+  Future<List<Map<String, dynamic>>> getAllDataFromFirestore() async {
+    loading=true;
+    update();
+    String collectionName = 'products';
+
+    // try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection(collectionName)
+          .get();
+
+      // Iterate through the documents and convert them to a list of maps
+      List<Map<String, dynamic>> dataList = querySnapshot.docs
+          .map((DocumentSnapshot document) => document.data() as Map<String, dynamic>)
+          .toList();
+      products = dataList.map((data) => Product.fromJson(data)).toList();
+
+
+      print(dataList.toString());
+      loading=false;
+      update();
+      // setState(() {
+      // });
+    // print(dataList.toString());
+      return dataList;
+    // } catch (e) {
+    //   loading=false;
+    //   // setState(() {
+    //   //
+    //   // });
+    //   update();
+    //   print('Error getting data from Firestore: $e');
+    //   loading=false;
+    //   update();
+    //   return [];
+    // }
+
+  }
+  // TextEditingController firstName=TextEditingController();
+  // TextEditingController lastName=TextEditingController();
+  // TextEditingController fatherName=TextEditingController();
+  // TextEditingController nIC=TextEditingController();
+  // TextEditingController schoolOrCollege=TextEditingController();
+  // TextEditingController currentLevel=TextEditingController();
+  // TextEditingController className=TextEditingController();
+  // TextEditingController rollNumber=TextEditingController();
+  // TextEditingController phoneNumber=TextEditingController();
   // TextEditingController dateOfBirth=TextEditingController();
-  TextEditingController homeAddress=TextEditingController();
-  TextEditingController city=TextEditingController();
+  // TextEditingController homeAddress=TextEditingController();
+  // TextEditingController city=TextEditingController();
 
 
   //auto
@@ -105,70 +180,70 @@ class FormController extends GetxController{
   }
 
   //save data to firestore
-  Future<void> saveDataToFireStore(Map<String, dynamic> jsonData) async {
-    // Access the Firestore instance
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    try {
-      // Add the JSON data to a Firestore collection (replace 'json_data' with your collection name)
-      DocumentReference documentReference = firestore.collection('Students').doc(firstName.text+"_"+lastName.text+"_"+fatherName.text);
-      await documentReference.set(jsonData);
-
-      // await firestore.collection('Students').add(jsonData);
-
-
-      print('JSON data saved to Firestore successfully!');
-    } catch (error) {
-      print('Error saving JSON data to Firestore: $error');
-    }
-  }
-  bool formSubmitting=false;
-  submitForm(BuildContext context)async{
-    formSubmitting=true;
-    update();
-    if(
-        firstName.text!='' &&
-        lastName.text!='' &&
-        fatherName.text!=''&&
-            selectedDate!=null &&
-    currentLevel.text!=''&&
-    schoolOrCollege.text!=''&&
-    className.text!=''&&
-    rollNumber.text!=''&&
-    phoneNumber.text!=''&&
-    city.text!=''&&
-    homeAddress.text!=''&&
-    profilePhoto!=''&&
-    feeConfirmed!=false &&
-    monthlyFeeConfirmed!=false
-    ){
-      await saveDataToFireStore(
-          {
-            "Full Name":firstName.text+" "+lastName.text,
-            "Father Name":fatherName.text,
-            "NIC":nIC.text,
-            "SchoolOrCollege":schoolOrCollege.text,
-            "Current Level":currentLevel.text,
-            "Class Name":className.text,
-            "Roll Number":rollNumber.text,
-            "phone Number":phoneNumber.text,
-            "Home Address":homeAddress.text,
-            "City":city.text,
-            "Profile Photo":profilePhoto,
-            "Apply Date":DateTime.now().toIso8601String().toString(),
-            "Admission Fee":"Confirmed",
-            "Monthly Fee":"Confirmed",
-          }
-      );
-      showSnackbar(context,"Application Submitted Succesfully\nWe will contact you ASAP");
-      Get.offAndToNamed("/ApplyCompleted");
-    }else{
-      showSnackbar(context,"All fields are required");
-    }
-
-    formSubmitting=false;
-    update();
-  }
+  // Future<void> saveDataToFireStore(Map<String, dynamic> jsonData) async {
+  //   // Access the Firestore instance
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //
+  //   try {
+  //     // Add the JSON data to a Firestore collection (replace 'json_data' with your collection name)
+  //     DocumentReference documentReference = firestore.collection('Students').doc(firstName.text+"_"+lastName.text+"_"+fatherName.text);
+  //     await documentReference.set(jsonData);
+  //
+  //     // await firestore.collection('Students').add(jsonData);
+  //
+  //
+  //     print('JSON data saved to Firestore successfully!');
+  //   } catch (error) {
+  //     print('Error saving JSON data to Firestore: $error');
+  //   }
+  // }
+  // bool formSubmitting=false;
+  // submitForm(BuildContext context)async{
+  //   formSubmitting=true;
+  //   update();
+  //   if(
+  //       firstName.text!='' &&
+  //       lastName.text!='' &&
+  //       fatherName.text!=''&&
+  //           selectedDate!=null &&
+  //   currentLevel.text!=''&&
+  //   schoolOrCollege.text!=''&&
+  //   className.text!=''&&
+  //   rollNumber.text!=''&&
+  //   phoneNumber.text!=''&&
+  //   city.text!=''&&
+  //   homeAddress.text!=''&&
+  //   profilePhoto!=''&&
+  //   feeConfirmed!=false &&
+  //   monthlyFeeConfirmed!=false
+  //   ){
+  //     await saveDataToFireStore(
+  //         {
+  //           "Full Name":firstName.text+" "+lastName.text,
+  //           "Father Name":fatherName.text,
+  //           "NIC":nIC.text,
+  //           "SchoolOrCollege":schoolOrCollege.text,
+  //           "Current Level":currentLevel.text,
+  //           "Class Name":className.text,
+  //           "Roll Number":rollNumber.text,
+  //           "phone Number":phoneNumber.text,
+  //           "Home Address":homeAddress.text,
+  //           "City":city.text,
+  //           "Profile Photo":profilePhoto,
+  //           "Apply Date":DateTime.now().toIso8601String().toString(),
+  //           "Admission Fee":"Confirmed",
+  //           "Monthly Fee":"Confirmed",
+  //         }
+  //     );
+  //     showSnackbar(context,"Application Submitted Succesfully\nWe will contact you ASAP");
+  //     Get.offAndToNamed("/ApplyCompleted");
+  //   }else{
+  //     showSnackbar(context,"All fields are required");
+  //   }
+  //
+  //   formSubmitting=false;
+  //   update();
+  // }
 
   void showSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(

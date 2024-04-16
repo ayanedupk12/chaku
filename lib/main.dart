@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:form/FormScreen.dart';
+import 'package:form/showCase.dart';
 import 'package:form/splashscreen.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Specify your initial route
       routes: {
         '/': (context) => SplashScreen(),
-        '/FormScreen': (context) => FormScreen(),
+        '/FormScreen': (context) => ShowCaseScreen(),
         '/ApplyCompleted': (context) => ApplyCompleted(),
       },
       theme: ThemeData(

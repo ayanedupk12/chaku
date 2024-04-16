@@ -53,11 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAMMMMrGg-GHRRBFfKZ1WJ2pB8Ru73WQRY',
-    appId: '1:130087689782:web:126a2ab22c88bdc02d4297',
-    messagingSenderId: '130087689782',
-    projectId: 'flutter-fusion-form',
-    authDomain: 'flutter-fusion-form.firebaseapp.com',
-    storageBucket: 'flutter-fusion-form.appspot.com',
+    apiKey: 'AIzaSyCBlKzkGFN5F3ifUoe4QPx8mNcOhCWOSGc',
+    appId: '1:589242818877:web:159bce5cea5543d56ee554',
+    messagingSenderId: '589242818877',
+    projectId: 'dir-chaku-project',
+    authDomain: 'dir-chaku-project.firebaseapp.com',
+    storageBucket: 'dir-chaku-project.appspot.com',
   );
 }
